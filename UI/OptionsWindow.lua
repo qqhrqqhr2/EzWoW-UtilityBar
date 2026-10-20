@@ -373,13 +373,14 @@ function ns:ToggleOptions()
 
     -- 4. Reset Position & Support / Donate Buttons & Footer
     local resetPosBtn, resetPosText = CreateActionButton(ns:L("resetPos"), 20, -688, function()
+        if InCombatLockdown() then return end
         db.position = nil
         db.visible = true
         db.manualWidth = nil
         db.manualHeight = nil
-        if ns.Frame then
-            ns.Frame:ClearAllPoints()
-            ns.Frame:SetPoint("CENTER", UIParent, "CENTER", 0, -180)
+        if ns.MainFrame then
+            ns.MainFrame:ClearAllPoints()
+            ns.MainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, -180)
         end
         ns:RefreshToolbar()
         updateLabels()
