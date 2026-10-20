@@ -1,0 +1,33 @@
+## Interface: 16001
+## Title: EzWoW - Utility Bar
+## Title-enUS: EzWoW - Utility Bar
+## Title-koKR: EzWoW - Utility Bar
+## Title-deDE: EzWoW - Utility Bar
+## Title-frFR: EzWoW - Utility Bar
+## Title-esES: EzWoW - Utility Bar
+## Title-esMX: EzWoW - Utility Bar
+## Title-ruRU: EzWoW - Utility Bar
+## Title-zhCN: EzWoW - Utility Bar
+## Title-zhTW: EzWoW - Utility Bar
+## Notes: Utility items, professions and class skills for WoW Forever (/ezub, /ezwowutilitybar)
+## Notes-enUS: Utility items, professions and class skills for WoW Forever (/ezub, /ezwowutilitybar)
+## Notes-koKR: 가방의 사용 아이템, 전문기술, 직업 보조 스킬을 분류별로 모아 보여주는 단축바 (/ezub, /ezwowutilitybar)
+## Notes-deDE: Nützliche Gegenstände, Berufe und Klassenfähigkeiten übersichtlich in einer Leiste (/ezub, /ezwowutilitybar)
+## Notes-frFR: Objets utilisables, métiers et compétences de classe regroupés dans une barre pratique (/ezub, /ezwowutilitybar)
+## Notes-esES: Objetos utilizables, profesiones y habilidades de clase agrupados en una barra práctica (/ezub, /ezwowutilitybar)
+## Notes-esMX: Objetos utilizables, profesiones y habilidades de clase agrupados en una barra práctica (/ezub, /ezwowutilitybar)
+## Notes-ruRU: Полезные предметы, профессии и классовые умения на удобной панели (/ezub, /ezwowutilitybar)
+## Notes-zhCN: 自动分类显示背包可用物品、专业技能与职业辅助技能的快捷栏 (/ezub, /ezwowutilitybar)
+## Notes-zhTW: 自動分類顯示背包可用物品、專業技能與職業輔助技能的快捷列 (/ezub, /ezwowutilitybar)
+## Author: qqhrqqhr2
+## Version: 0.5.7
+## IconTexture: Interface\AddOns\EzWoW-UtilityBar\Media\Icon
+## SavedVariables: EzWoW_UtilityBarDB
+
+Core\Init.lua
+Core\UIKit.lua
+Core\Locales.lua
+Data\ClassificationRules.lua
+Modules\InventoryScanner.lua
+UI\ToolbarFrame.lua
+UI\OptionsWindow.lua
