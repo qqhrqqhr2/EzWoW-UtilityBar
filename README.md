@@ -204,3 +204,13 @@ The same window can also be opened from the game's **Settings → AddOns → EzW
 - To move the bar, hold **Ctrl** while dragging the title. A plain drag does nothing.
 - The **x** hide buttons only appear while the bar is **unlocked**.
 - New items are not added during combat; the bar updates automatically when combat ends.
+
+---
+
+## Support / 후원
+
+If you find this addon useful, you can support its development.
+
+애드온이 도움이 되셨다면 개발 후원으로 응원해 주세요.
+
+[Buy Me a Coffee ☕](https://buymeacoffee.com/qqhrqqhr2)
