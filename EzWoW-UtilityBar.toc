@@ -1,4 +1,5 @@
 ## Interface: 16001
+## X-Curse-Project-ID: 1741884
 ## Title: EzWoW - Utility Bar
 ## Title-enUS: EzWoW - Utility Bar
 ## Title-koKR: EzWoW - Utility Bar
