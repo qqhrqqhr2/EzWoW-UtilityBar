@@ -1,5 +1,10 @@
 # EzWoW - Utility Bar (`EzWoW-UtilityBar`)
 
+## CurseForge
+
+- **Project ID / 프로젝트 ID:** `1741884`
+- **Project page / 프로젝트 페이지:** [EzWoW-UtilityBar](https://www.curseforge.com/wow/addons/easyutilitybar)
+
 **[한국어](#한국어) · [English](#english)**
 
 WoW Forever (`Interface: 16001`) · `v0.5.7` · `/ezub`
