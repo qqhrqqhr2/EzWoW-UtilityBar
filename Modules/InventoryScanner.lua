@@ -18,22 +18,46 @@ scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
 local bagTooltipCache = {}
 local safeItemInfoCache = {}
 
+-- An item whose data or tooltip is not ready yet (just logged in, new loot, secret text)
+-- must not be judged now: it would be skipped and the result kept for the whole session.
+local retryCount, retryQueued = {}, false
+local MAX_RETRIES = 6
+
+function ns.NoteIncompleteItem(itemID)
+    if not itemID then return end
+    ns.waitingItems[itemID] = true
+    if C_Item and type(C_Item.RequestLoadItemDataByID) == "function" then
+        pcall(C_Item.RequestLoadItemDataByID, itemID)
+    end
+    retryCount[itemID] = (retryCount[itemID] or 0) + 1
+    if retryCount[itemID] > MAX_RETRIES or retryQueued then return end
+    if C_Timer and type(C_Timer.After) == "function" then
+        retryQueued = true
+        C_Timer.After(1.5, function()
+            retryQueued = false
+            if ns.db and ns.RequestRefresh then ns:RequestRefresh() end
+        end)
+    end
+end
+
 function ns.ScanBagItemTooltip(bag, slot)
     local itemID = C_Container and C_Container.GetContainerItemID and C_Container.GetContainerItemID(bag, slot)
     if itemID and bagTooltipCache[itemID] then
         local c = bagTooltipCache[itemID]
-        return c[1], c[2], c[3]
+        return c[1], c[2], c[3], true
     end
     scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
     scanTooltip:ClearLines()
     scanTooltip:SetBagItem(bag, slot)
 
-    local hasUse = false
+    local hasUse, complete = false, true
     local lines = {}
     for i = 1, scanTooltip:NumLines() do
         local fs = _G["EzWoWUtilityBarScanTooltipTextLeft" .. i]
         local text = fs and fs:GetText()
-        if type(text) == "string" and not ns.IsSecret(text) then
+        if type(text) == "string" and ns.IsSecret(text) then
+            complete = false
+        elseif type(text) == "string" then
             lines[#lines + 1] = text
             if text:find("Use:", 1, true) or text:find("Utiliser :", 1, true) or text:find("Utiliser:", 1, true)
                 or text:find("사용 효과", 1, true) or text:find("사용:", 1, true)
@@ -48,10 +72,17 @@ function ns.ScanBagItemTooltip(bag, slot)
         end
     end
     local fullText, firstLine = table.concat(lines, "\n"), lines[1]
-    if itemID and firstLine and firstLine ~= "" then
-        bagTooltipCache[itemID] = { hasUse, fullText, firstLine }
+    if not firstLine or firstLine == "" or (RETRIEVING_ITEM_INFO and firstLine == RETRIEVING_ITEM_INFO) then
+        complete, firstLine = false, nil
     end
-    return hasUse, fullText, firstLine
+    if itemID and not ns.GetSafeItemInfo(itemID) then complete = false end
+    if itemID and complete then
+        bagTooltipCache[itemID] = { hasUse, fullText, firstLine }
+        retryCount[itemID] = nil
+    elseif itemID then
+        ns.NoteIncompleteItem(itemID)
+    end
+    return hasUse, fullText, firstLine, complete
 end
 
 function ns.EquippedSlotHasUseEffect(slot)
