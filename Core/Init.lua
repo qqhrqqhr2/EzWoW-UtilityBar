@@ -150,10 +150,12 @@ function ns.FitText(fs, text, maxWidth, baseSize, minSize)
     if fs:GetStringWidth() > maxWidth then
         local original = text
         while #text > 0 and fs:GetStringWidth() > maxWidth do
-            text = text:sub(1, -2)
-            while #text > 0 and string.byte(text, #text) >= 128 and string.byte(text, #text) < 192 do
-                text = text:sub(1, -2)
+            -- drop the whole last character (all bytes of a Korean / Chinese letter)
+            local cut = #text
+            while cut > 1 and string.byte(text, cut) >= 128 and string.byte(text, cut) < 192 do
+                cut = cut - 1
             end
+            text = text:sub(1, cut - 1)
             fs:SetText(text .. "...")
             if text == original then break end
         end

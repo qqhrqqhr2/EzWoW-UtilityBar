@@ -245,6 +245,7 @@ function ns:ToggleOptions()
     local langText = langBtn:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     langText:SetPoint("CENTER")
     langText:SetWidth(177)
+    langBtn.label = langText
     langBtn:SetScript("OnEnter", function(s) s:SetBackdropBorderColor(0.788, 0.643, 0.937, 1) end)
     langBtn:SetScript("OnLeave", function(s) s:SetBackdropBorderColor(0.204, 0.298, 0.357, 1) end)
 
@@ -473,15 +474,19 @@ function ns:ToggleOptions()
         ns:RefreshToolbar()
     end)
 
-    langBtn:SetScript("OnClick", function()
-        local index = 1
-        for i, v in ipairs(ns.LANGUAGE_OPTIONS) do
-            if v[1] == db.language then index = i; break end
-        end
-        db.language = ns.LANGUAGE_OPTIONS[index % #ns.LANGUAGE_OPTIONS + 1][1]
-        updateLabels()
-        ns:RefreshToolbar()
-    end)
+    -- click the box, then pick a language from the list
+    local langItems = {}
+    for i, v in ipairs(ns.LANGUAGE_OPTIONS) do langItems[i] = { value = v[1], text = v[2] } end
+    ns.LanguageDropdown.Attach(langBtn, {
+        items = langItems,
+        colors = { accent = { 0.788, 0.643, 0.937, 1 } },
+        get = function() return db.language end,
+        set = function(code)
+            db.language = code
+            updateLabels()
+            ns:RefreshToolbar()
+        end,
+    })
 
     for _, btn in ipairs({ lockBtn, visBtn }) do
         btn:HookScript("OnClick", updateLabels)

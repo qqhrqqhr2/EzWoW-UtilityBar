@@ -32,4 +32,5 @@ Core\Locales.lua
 Data\ClassificationRules.lua
 Modules\InventoryScanner.lua
 UI\ToolbarFrame.lua
+UI\LanguageDropdown.lua
 UI\OptionsWindow.lua

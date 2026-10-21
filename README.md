@@ -73,7 +73,7 @@ WoW Forever (`Interface: 16001`) · `v0.5.7` · `/ezub`
 | ② | 음식·물약·붕대는 최고 등급만 표시 | 종류별 최고 등급 1개만 남깁니다. | 끔 |
 | ② | 위로 펼치기 | 단축바를 화면 아래쪽에 둘 때 위로 자라게 합니다. | 끔 |
 | ② | 소모품·직업 재료·탄약 부족 시 빨간색 경고 표시 | 재고가 적으면 숫자를 빨간색으로 표시합니다. | 켬 |
-| ③ | 언어 | 누를 때마다 Auto → 한국어 → English → Deutsch → Français → Español → Русский → 简体中文 → 繁體中文 순서로 바뀝니다. | Auto |
+| ③ | 언어 | 상자를 누르고 목록(Auto · 한국어 · English · Deutsch · Français · Español · Русский · 简体中文 · 繁體中文)에서 고릅니다. | Auto |
 | ③ | 스킬 단계 | 직업 스킬을 **최고 단계**만 보일지 **모든 단계**를 보일지 고릅니다. | 최고 단계 |
 | ④ | 아이콘 크기 | 24~64 (2 단위) | 36 |
 | ④ | 한 줄 개수 | 4~16 | 8 |
@@ -171,7 +171,7 @@ Utility Bar **collects usable bag items, equipped on-use gear, professions, form
 | ② | Food, potions, bandages: best only | Keep one best item per type. | Off |
 | ② | Grow upward | Lets the bar grow upward when placed at the bottom of the screen. | Off |
 | ② | Highlight low-stock consumables, reagents & ammo | Red count when stock is low. | On |
-| ③ | Language | Each click cycles Auto → 한국어 → English → Deutsch → Français → Español → Русский → 简体中文 → 繁體中文. | Auto |
+| ③ | Language | Click the box and pick from the list (Auto · 한국어 · English · Deutsch · Français · Español · Русский · 简体中文 · 繁體中文). | Auto |
 | ③ | Spell ranks | Show class skills at **Highest rank** only or **All ranks**. | Highest rank |
 | ④ | Icon size | 24–64 (steps of 2) | 36 |
 | ④ | Icons per row | 4–16 | 8 |
