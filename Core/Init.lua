@@ -126,17 +126,26 @@ function ns.FitText(fs, text, maxWidth, baseSize, minSize)
     if not fs then return end
     text = text or ""
     fs:SetWordWrap(false)
-    local font, _, flags = fs:GetFont()
+    -- SetTextScale keeps the font object (and any font addon's face); SetFont is the old-client fallback
+    if fs.SetTextScale then fs:SetTextScale(1) end
+    local font, rawSize, flags = fs:GetFont()
     if not font then
         fs:SetText(text)
         return
     end
-    fs:SetFont(font, baseSize, flags)
+    local function applySize(size)
+        if fs.SetTextScale and rawSize and rawSize > 0 then
+            fs:SetTextScale(size / rawSize)
+        else
+            fs:SetFont(font, size, flags)
+        end
+    end
+    applySize(baseSize)
     fs:SetText(text)
     local size = baseSize
     while fs:GetStringWidth() > maxWidth and size > minSize do
         size = size - 0.5
-        fs:SetFont(font, size, flags)
+        applySize(size)
     end
     if fs:GetStringWidth() > maxWidth then
         local original = text
