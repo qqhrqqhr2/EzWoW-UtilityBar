@@ -551,3 +551,11 @@ function ns:GetLanguageDisplayLabel()
     end
     return "Auto"
 end
+
+-- Additional translations for interface messages.
+UI_STRINGS.deDE["resetPos"] = "Leistenposition zurücksetzen"
+UI_STRINGS.frFR["resetPos"] = "Réinitialiser la position de la barre"
+UI_STRINGS.esES["resetPos"] = "Restablecer posición de la barra"
+UI_STRINGS.ruRU["resetPos"] = "Сбросить положение панели"
+UI_STRINGS.zhCN["resetPos"] = "重置工具栏位置"
+UI_STRINGS.zhTW["resetPos"] = "重置工具列位置"
