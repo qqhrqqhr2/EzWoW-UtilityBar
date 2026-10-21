@@ -701,6 +701,7 @@ function ns:RefreshToolbar()
                 h:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -y)
                 h:SetWidth(width - 16)
                 h.label:SetText((collapsed and ">  " or "v  ") .. self:GetGroupLabel(k) .. "  |  " .. #group)
+                ns.UIKit:FitFontString(h.label, width - 50, 1)  -- keep clear of the drag grip
                 if h.grip then h.grip:SetShown(not db.locked) end
                 if draggingCategory == k then
                     h.bg:SetColorTexture(0.24, 0.19, 0.32, 0.98)
