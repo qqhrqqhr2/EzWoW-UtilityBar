@@ -21,7 +21,7 @@
 ## Notes-zhCN: 自动分类显示背包可用物品、专业技能与职业辅助技能的快捷栏 (/ezub, /ezwowutilitybar)
 ## Notes-zhTW: 自動分類顯示背包可用物品、專業技能與職業輔助技能的快捷列 (/ezub, /ezwowutilitybar)
 ## Author: qqhrqqhr2
-## Version: 2.0.2
+## Version: 2.0.3
 ## Category: EzWoW
 ## IconTexture: Interface\AddOns\EzWoW-UtilityBar\Media\Icon
 ## SavedVariables: EzWoW_UtilityBarDB
