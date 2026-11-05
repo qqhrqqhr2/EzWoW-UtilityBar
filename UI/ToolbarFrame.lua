@@ -876,7 +876,10 @@ frame:RegisterEvent("SPELLS_CHANGED")
 frame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 frame:RegisterEvent("SPELL_UPDATE_USABLE")
 frame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")
-frame:RegisterEvent("UNIT_POWER_UPDATE")
+-- Only the player's power matters; other units would refresh the bar for nothing.
+if not (frame.RegisterUnitEvent and pcall(frame.RegisterUnitEvent, frame, "UNIT_POWER_UPDATE", "player")) then
+    frame:RegisterEvent("UNIT_POWER_UPDATE")
+end
 frame:RegisterEvent("PLAYER_TARGET_CHANGED")
 frame:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 frame:RegisterEvent("BAG_UPDATE_COOLDOWN")

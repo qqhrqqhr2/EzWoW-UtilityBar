@@ -8,6 +8,11 @@ local lowerText = ns.LowerText
 
 ns.Data = ns.Data or {}
 
+-- Stable IDs do not depend on localized names or a loaded tooltip.
+ns.Data.ITEM_CATEGORIES = {
+    [6948] = "travel", -- Hearthstone
+}
+
 ns.Data.CLASS_REAGENTS = {
     MAGE    = { [17020] = 5, [17031] = 5, [17032] = 5, [17056] = 5 },
     PRIEST  = { [17028] = 5, [17029] = 5, [17056] = 5 },
@@ -51,7 +56,7 @@ ns.Data.CAMPING_ITEMS = {
 }
 
 ns.Data.FORM_PATTERNS = {
-    DRUID   = { "곰 변신", "광포한 곰 변신", "표범 변신", "날쌘 동물 변신", "여행 변신", "수중 동물 변신", "치타 변신", "달빛야수 변신", "나무정령 변신", "bear form", "dire bear form", "cat form", "travel form", "aquatic form", "moonkin form", "tree of life", "flight form" },
+    DRUID   = { "곰 변신", "광포한 곰 변신", "표범 변신", "날쌘 동물 변신", "여행 변신", "수중 동물 변신", "수중 생물 변신", "치타 변신", "달빛야수 변신", "나무정령 변신", "bear form", "dire bear form", "cat form", "travel form", "aquatic form", "moonkin form", "tree of life", "flight form" },
     WARRIOR = { "전투 태세", "방어 태세", "광폭 태세", "battle stance", "defensive stance", "berserker stance" },
     ROGUE   = { "은신", "stealth" },
     HUNTER  = { "치타의 상", "매의 상", "원숭이의 상", "야수의 상", "독사의 상", "치타 무리의 상", "야생의 상", "용매의 상", "aspect of" },

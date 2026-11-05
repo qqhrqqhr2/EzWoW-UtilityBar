@@ -21,12 +21,44 @@ local safeItemInfoCache = {}
 -- An item whose data or tooltip is not ready yet (just logged in, new loot, secret text)
 -- must not be judged now: it would be skipped and the result kept for the whole session.
 local retryCount, retryQueued = {}, false
+local loadRequested = {}
 local MAX_RETRIES = 6
+
+-- "No use effect" is cached only after several complete scans, taken at least
+-- NEGATIVE_GAP seconds apart, saw the same tooltip text. The cache is bounded.
+local negativeCache, negativeVotes, negativeSize = {}, {}, 0
+local NEGATIVE_VOTES, NEGATIVE_GAP, NEGATIVE_MAX = 3, 1, 1000
+
+local function ItemDataLoaded(itemID)
+    if C_Item and type(C_Item.IsItemDataCachedByID) == "function" then
+        local ok, cached = pcall(C_Item.IsItemDataCachedByID, itemID)
+        if ok and not ns.IsSecret(cached) then return cached == true end
+    end
+    return true
+end
+
+local function VoteNoUse(itemID, fullText, firstLine)
+    local now = GetTime()
+    local vote = negativeVotes[itemID]
+    if not vote or vote.text ~= fullText then
+        negativeVotes[itemID] = { text = fullText, count = 1, time = now }
+        return false
+    end
+    if now - vote.time < NEGATIVE_GAP then return false end
+    vote.count, vote.time = vote.count + 1, now
+    if vote.count < NEGATIVE_VOTES then return false end
+    negativeVotes[itemID] = nil
+    if negativeSize >= NEGATIVE_MAX then negativeCache, negativeSize = {}, 0 end
+    negativeCache[itemID] = { fullText, firstLine }
+    negativeSize = negativeSize + 1
+    return true
+end
 
 function ns.NoteIncompleteItem(itemID)
     if not itemID then return end
     ns.waitingItems[itemID] = true
-    if C_Item and type(C_Item.RequestLoadItemDataByID) == "function" then
+    if not loadRequested[itemID] and C_Item and type(C_Item.RequestLoadItemDataByID) == "function" then
+        loadRequested[itemID] = true
         pcall(C_Item.RequestLoadItemDataByID, itemID)
     end
     retryCount[itemID] = (retryCount[itemID] or 0) + 1
@@ -40,11 +72,28 @@ function ns.NoteIncompleteItem(itemID)
     end
 end
 
+function ns.ItemHasUseSpell(itemID)
+    local fn = (C_Item and C_Item.GetItemSpell) or GetItemSpell
+    if type(fn) ~= "function" then return false end
+    local ok, name, spellID = pcall(fn, itemID)
+    if not ok then return false end
+    return (type(spellID) == "number" and not ns.IsSecret(spellID) and spellID > 0)
+        or (type(name) == "string" and not ns.IsSecret(name) and name ~= "")
+end
+
+local function ReadableText(value)
+    return type(value) == "string" and not ns.IsSecret(value) and value ~= ""
+end
+
 function ns.ScanBagItemTooltip(bag, slot)
     local itemID = C_Container and C_Container.GetContainerItemID and C_Container.GetContainerItemID(bag, slot)
     if itemID and bagTooltipCache[itemID] then
         local c = bagTooltipCache[itemID]
         return c[1], c[2], c[3], true
+    end
+    if itemID and negativeCache[itemID] then
+        local c = negativeCache[itemID]
+        return false, c[1], c[2], true
     end
     scanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
     scanTooltip:ClearLines()
@@ -75,10 +124,19 @@ function ns.ScanBagItemTooltip(bag, slot)
     if not firstLine or firstLine == "" or (RETRIEVING_ITEM_INFO and firstLine == RETRIEVING_ITEM_INFO) then
         complete, firstLine = false, nil
     end
-    if itemID and not ns.GetSafeItemInfo(itemID) then complete = false end
-    if itemID and complete then
+    if itemID then
+        local name, itemType, itemSubType = ns.GetSafeItemInfo(itemID)
+        if not name or not itemType or not itemSubType then complete = false end
+    end
+    -- A name-only or temporarily missing use line is not a reliable negative.
+    -- Cache confirmed use effects at once; a negative only after repeated agreeing scans.
+    if itemID and complete and hasUse then
         bagTooltipCache[itemID] = { hasUse, fullText, firstLine }
+        retryCount[itemID], negativeVotes[itemID] = nil, nil
+        ns.waitingItems[itemID] = nil
+    elseif itemID and complete and ItemDataLoaded(itemID) and VoteNoUse(itemID, fullText, firstLine) then
         retryCount[itemID] = nil
+        ns.waitingItems[itemID] = nil
     elseif itemID then
         ns.NoteIncompleteItem(itemID)
     end
@@ -116,15 +174,23 @@ function ns.GetSafeItemInfo(itemID)
     end
     if type(GetItemInfo) == "function" then
         local ok, name, _, quality, level, minLevel, itemType, itemSubType = pcall(GetItemInfo, itemID)
-        if ok and name then
-            safeItemInfoCache[itemID] = { name, itemType, itemSubType, quality, minLevel, level }
+        if ok and ReadableText(name) then
+            itemType = ReadableText(itemType) and itemType or nil
+            itemSubType = ReadableText(itemSubType) and itemSubType or nil
+            if itemType and itemSubType then
+                safeItemInfoCache[itemID] = { name, itemType, itemSubType, quality, minLevel, level }
+            end
             return name, itemType, itemSubType, quality, minLevel, level
         end
     end
     if C_Item and type(C_Item.GetItemInfo) == "function" then
         local ok, name, _, quality, level, minLevel, itemType, itemSubType = pcall(C_Item.GetItemInfo, itemID)
-        if ok and name then
-            safeItemInfoCache[itemID] = { name, itemType, itemSubType, quality, minLevel, level }
+        if ok and ReadableText(name) then
+            itemType = ReadableText(itemType) and itemType or nil
+            itemSubType = ReadableText(itemSubType) and itemSubType or nil
+            if itemType and itemSubType then
+                safeItemInfoCache[itemID] = { name, itemType, itemSubType, quality, minLevel, level }
+            end
             return name, itemType, itemSubType, quality, minLevel, level
         end
     end
@@ -236,15 +302,17 @@ function ns:CollectEntries()
                             end
                         else
                             local hasUse, tipText, firstLine = ns.ScanBagItemTooltip(bag, slot)
-                            if (hasUse or ns.Data.CAMPING_ITEMS[id] or ns.Data.WEAPON_BUFF_ITEMS[id])
+                            local knownCategory = ns.Data.ITEM_CATEGORIES[id]
+                                or (ns.Data.CAMPING_ITEMS[id] and "camping")
+                                or (ns.Data.WEAPON_BUFF_ITEMS[id] and "weaponbuff")
+                            if (hasUse or knownCategory or ns.ItemHasUseSpell(id))
                                 and not ns.IsItemEquippable(id)
                                 and not hidden["item:" .. id] then
                                 if not name or not itemType then
                                     self.waitingItems[id] = true
                                 end
                                 name = name or firstLine
-                                local cat = (ns.Data.CAMPING_ITEMS[id] and "camping")
-                                    or (ns.Data.WEAPON_BUFF_ITEMS[id] and "weaponbuff")
+                                local cat = knownCategory
                                     or ns.ClassifyItem(name, itemType, itemSubType, tipText)
 
                                 if categories[cat] then
