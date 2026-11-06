@@ -70,6 +70,7 @@ ns.DEFAULTS = {
     bestOnly     = false,
     growUp       = false,
     lowStockWarn = true,
+    autoSummonPet = false,
 }
 
 ns.order = {}

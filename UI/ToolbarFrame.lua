@@ -157,6 +157,27 @@ end
 -----------------------------------------------------------------------------
 -- Secure Action Button Pool
 -----------------------------------------------------------------------------
+-- Follows the game's "cast on key down" option.
+function ToolbarController.UseKeyDown()
+    local fn = (C_CVar and C_CVar.GetCVarBool) or GetCVarBool
+    if type(fn) ~= "function" then return false end
+    local ok, value = pcall(fn, "ActionButtonUseKeyDown")
+    return ok and value == true
+end
+
+-- SetAttribute on secure buttons only out of combat; otherwise after combat ends.
+function ToolbarController.ApplyKeyDownSetting()
+    if InCombatLockdown() then
+        ns.pendingKeyDown = true
+        return
+    end
+    ns.pendingKeyDown = false
+    local keyDown = ToolbarController.UseKeyDown()
+    for _, b in ipairs(buttons) do
+        b:SetAttribute("useOnKeyDown", keyDown)
+    end
+end
+
 function ToolbarController.AcquireActionButton(index)
     if buttons[index] then return buttons[index] end
 
@@ -270,7 +291,9 @@ function ToolbarController.AcquireActionButton(index)
     hideBtn:Hide()
     b.hideBtn = hideBtn
 
+    -- Both edges are registered; the attribute picks which one acts, so a click or key fires once.
     b:RegisterForClicks("AnyUp", "AnyDown")
+    b:SetAttribute("useOnKeyDown", ToolbarController.UseKeyDown())
     b:SetScript("OnEnter", function(self)
         if not self.entry then return end
         if ns.hoverUIActive and ns.db and not ns.db.locked then
@@ -884,6 +907,7 @@ frame:RegisterEvent("PLAYER_TARGET_CHANGED")
 frame:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
 frame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+pcall(frame.RegisterEvent, frame, "CVAR_UPDATE")
 
 frame:SetScript("OnEvent", function(_, event, arg1)
     if event == "PLAYER_LOGIN" then
@@ -898,8 +922,15 @@ frame:SetScript("OnEvent", function(_, event, arg1)
         ns:RefreshToolbar()
         ns.Print(ns:L("loaded"))
     elseif event == "PLAYER_REGEN_ENABLED" then
+        if ns.pendingKeyDown then
+            ToolbarController.ApplyKeyDownSetting()
+        end
         if ns.pendingRefresh then
             ns:RefreshToolbar()
+        end
+    elseif event == "CVAR_UPDATE" then
+        if arg1 == "ActionButtonUseKeyDown" or arg1 == "ACTION_BUTTON_USE_KEY_DOWN" then
+            ToolbarController.ApplyKeyDownSetting()
         end
     elseif event == "GET_ITEM_INFO_RECEIVED" then
         if arg1 and ns.waitingItems[arg1] then
