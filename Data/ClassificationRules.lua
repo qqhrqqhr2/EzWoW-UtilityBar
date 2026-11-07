@@ -56,11 +56,11 @@ ns.Data.CAMPING_ITEMS = {
 }
 
 ns.Data.FORM_PATTERNS = {
-    DRUID   = { "곰 변신", "광포한 곰 변신", "표범 변신", "날쌘 동물 변신", "여행 변신", "수중 동물 변신", "수중 생물 변신", "치타 변신", "달빛야수 변신", "나무정령 변신", "bear form", "dire bear form", "cat form", "travel form", "aquatic form", "moonkin form", "tree of life", "flight form" },
+    DRUID   = { "곰 변신", "광포한 곰 변신", "표범 변신", "날쌘 동물 변신", "여행 변신", "수중 동물 변신", "수중 생물 변신", "바다표범 변신", "치타 변신", "달빛야수 변신", "나무정령 변신", "bear form", "dire bear form", "cat form", "travel form", "aquatic form", "moonkin form", "tree of life", "flight form" },
     WARRIOR = { "전투 태세", "방어 태세", "광폭 태세", "battle stance", "defensive stance", "berserker stance" },
     ROGUE   = { "은신", "stealth" },
     HUNTER  = { "치타의 상", "매의 상", "원숭이의 상", "야수의 상", "독사의 상", "치타 무리의 상", "야생의 상", "용매의 상", "aspect of" },
-    PALADIN = { "기원의 오라", "응보의 오라", "집중의 오라", "성전사의 오라", "저항의 오라", "헌신의 오라", "devotion aura", "retribution aura", "concentration aura", "crusader aura", "resistance aura", "shadow resistance aura", "frost resistance aura", "fire resistance aura", "sanctity aura" },
+    PALADIN = { "기원의 오라", "응보의 오라", "집중의 오라", "성전사의 오라", "저항의 오라", "암흑 저항의 오라", "냉기 저항의 오라", "화염 저항의 오라", "신성의 오라", "헌신의 오라", "devotion aura", "retribution aura", "concentration aura", "crusader aura", "resistance aura", "shadow resistance aura", "frost resistance aura", "fire resistance aura", "sanctity aura" },
     SHAMAN  = { "늑대 정령", "ghost wolf" },
     PRIEST  = { "어둠의 형상", "shadowform" },
     WARLOCK = { "악마의 형상", "metamorphosis" },
@@ -202,13 +202,13 @@ function ns.ClassifyItem(name, itemType, itemSubType, tooltipText)
         return "quest"
     end
 
-    -- 2. Explosives / Bombs (filtered out by category toggle)
+    -- 2. Explosives / Bombs: shown with the engineering gadgets
     if s:find("폭탄", 1, true) or s:find("다이너마이트", 1, true) or s:find("수류탄", 1, true)
         or s:find("유탄", 1, true) or s:find("지뢰", 1, true) or s:find("폭발물", 1, true)
         or s:find("grenade", 1, true) or s:find("bomb", 1, true) or s:find("bombe", 1, true)
         or s:find("dynamite", 1, true) or s:find("sapper charge", 1, true) or s:find("land mine", 1, true)
         or u:find("explosive", 1, true) or u:find("explosif", 1, true) or u:find("폭발물", 1, true) then
-        return "bomb"
+        return "engineering"
     end
 
     -- 3. Camping Stations & Campfires

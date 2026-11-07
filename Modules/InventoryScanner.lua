@@ -305,7 +305,10 @@ function ns:CollectEntries()
                             local knownCategory = ns.Data.ITEM_CATEGORIES[id]
                                 or (ns.Data.CAMPING_ITEMS[id] and "camping")
                                 or (ns.Data.WEAPON_BUFF_ITEMS[id] and "weaponbuff")
+                            local classID = C_Item and C_Item.GetItemInfoInstant and select(6, C_Item.GetItemInfoInstant(id))
+                            local isRecipe = classID == 9 and not knownCategory
                             if (hasUse or knownCategory or ns.ItemHasUseSpell(id))
+                                and not isRecipe
                                 and not ns.IsItemEquippable(id)
                                 and not hidden["item:" .. id] then
                                 if not name or not itemType then

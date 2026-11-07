@@ -7,7 +7,7 @@
 
 **[한국어](#한국어) · [English](#english)**
 
-WoW Forever (`Interface: 16001`) · `v0.5.7` · `/ezub`
+WoW Forever (`Interface: 16001`) · `/ezub`
 
 ---
 
@@ -63,6 +63,14 @@ WoW Forever (`Interface: 16001`) · `v0.5.7` · `/ezub`
 
 - **전투 중 동작**: 전투 중에는 단축바 구성을 바꿀 수 없는 게임 규칙 때문에 목록은 그대로 두고, 수량만 실시간으로 갱신합니다. 전투 중 다 쓴 아이템은 반투명하게 표시했다가 전투가 끝나면 정리합니다.
 - **최고 등급만 표시**를 켜면 생명력 물약, 마나 물약, 일반 음식, 음료, 버프 음식, 붕대마다 **내 레벨에서 쓸 수 있는 가장 좋은 것 1개**만 남깁니다.
+- **키 누를 때 시전**: 단축바 단추는 게임의 “키를 누를 때 시전” 설정을 그대로 따릅니다(전투 중에 바꾸면 전투가 끝난 뒤 적용).
+
+#### 애완동물 자동 소환 (기본 꺼짐)
+
+설정에서 켜면 애완동물이 나와 있지 않을 때 즐겨찾기 애완동물 중 하나(즐겨찾기가 없으면 아무 애완동물)를 불러냅니다.
+
+- 전투 · 탈것 · 비행 · 탈것 장치 · 죽음 · 은신 · 죽은 척 · 인스턴스 · 시전 중에는 부르지 않습니다.
+- 애완동물을 직접 넣으면 다시 부를 때까지(또는 재접속할 때까지) 쉽니다.
 
 ### 설정창 (`/ezub`)
 
@@ -73,17 +81,18 @@ WoW Forever (`Interface: 16001`) · `v0.5.7` · `/ezub`
 | ② | 음식·물약·붕대는 최고 등급만 표시 | 종류별 최고 등급 1개만 남깁니다. | 끔 |
 | ② | 위로 펼치기 | 단축바를 화면 아래쪽에 둘 때 위로 자라게 합니다. | 끔 |
 | ② | 소모품·직업 재료·탄약 부족 시 빨간색 경고 표시 | 재고가 적으면 숫자를 빨간색으로 표시합니다. | 켬 |
-| ③ | 언어 | 상자를 누르고 목록(Auto · 한국어 · English · Deutsch · Français · Español · Русский · 简体中文 · 繁體中文)에서 고릅니다. | Auto |
-| ③ | 스킬 단계 | 직업 스킬을 **최고 단계**만 보일지 **모든 단계**를 보일지 고릅니다. | 최고 단계 |
-| ④ | 아이콘 크기 | 24~64 (2 단위) | 36 |
-| ④ | 한 줄 개수 | 4~16 | 8 |
-| ④ | 불투명도 | 30~100% (10% 단위) | 100% |
-| ④ | 마우스 올릴 때만 표시 | 평소에는 숨기고 마우스를 올리면 나타납니다. | 끔 |
-| ⑤ | 단축바 잠금 / 숨김 | 잠그면 배경이 투명해지고 실수로 움직이지 않습니다. 숨김은 단축바 전체를 감춥니다. | 잠금 해제 · 표시 |
-| ⑤ | 전체 펼치기 / 전체 접기 / 새로고침 | 모든 분류를 펼치거나 접고, 가방·장비·주문을 다시 읽습니다. | - |
-| ⑤ | 숨긴 아이콘 복원 (n) | 괄호 안 숫자만큼 숨긴 아이콘을 모두 되돌립니다. | - |
-| ⑥ | 단축바 위치 초기화 | 위치·직접 조절한 크기를 지우고 화면 가운데 아래로 되돌립니다. | - |
-| ⑥ | 후원하기 · 주소 복사 | 후원 주소를 복사할 수 있는 창을 엽니다. | - |
+| ② | 애완동물 자동 소환 (직접 넣으면 쉼) | 애완동물이 없을 때 즐겨찾기 애완동물을 불러냅니다. 애완동물 도감 기능이 있는 클라이언트에서만 보입니다. | 끔 |
+| ② | 언어 | 상자를 누르고 목록(Auto · 한국어 · English · Deutsch · Français · Español · Русский · 简体中文 · 繁體中文)에서 고릅니다. | Auto |
+| ② | 스킬 단계 | 직업 스킬을 **최고 단계**만 보일지 **모든 단계**를 보일지 고릅니다. | 최고 단계 |
+| ③ | 아이콘 크기 | 24~64 (2 단위) | 36 |
+| ③ | 한 줄 개수 | 4~16 | 8 |
+| ③ | 불투명도 | 30~100% (10% 단위) | 100% |
+| ③ | 마우스 올릴 때만 표시 | 평소에는 숨기고 마우스를 올리면 나타납니다. | 끔 |
+| ④ | 단축바 잠금 / 숨김 | 잠그면 배경이 투명해지고 실수로 움직이지 않습니다. 숨김은 단축바 전체를 감춥니다. | 잠금 해제 · 표시 |
+| ④ | 전체 펼치기 / 전체 접기 / 새로고침 | 모든 분류를 펼치거나 접고, 가방·장비·주문을 다시 읽습니다. | - |
+| ④ | 숨긴 아이콘 복원 (n) | 괄호 안 숫자만큼 숨긴 아이콘을 모두 되돌립니다. | - |
+| ⑤ | 단축바 위치 초기화 | 위치·직접 조절한 크기를 지우고 화면 가운데 아래로 되돌립니다. | - |
+| ⑤ | 후원하기 · 주소 복사 | 후원 주소를 복사할 수 있는 창을 엽니다. | - |
 
 게임의 **설정 → 애드온 → EzWoW - Utility Bar** 화면에서도 이 설정창을 열 수 있습니다.
 
@@ -161,6 +170,14 @@ Utility Bar **collects usable bag items, equipped on-use gear, professions, form
 
 - **In combat**: the game does not allow rebuilding the bar during combat, so the layout stays as it is and only counts update live. Items used up during combat are dimmed and removed after combat.
 - With **best only** enabled, the bar keeps just **one best usable item per type** (health potion, mana potion, food, drink, buff food, bandage) for your level.
+- **Cast on key down**: the bar's buttons follow the game's “cast on key down” option (a change made in combat applies after combat).
+
+#### Auto-summon companion pet (off by default)
+
+Turn it on in the settings and, whenever no companion pet is out, the bar summons one of your favourite pets (any pet if you have no favourites).
+
+- Never in combat, mounted, flying, in a vehicle, dead, stealthed, feigning death, in an instance or while casting.
+- If you put your pet away yourself, it waits until you summon one again (or log in again).
 
 ### Settings window (`/ezub`)
 
@@ -171,17 +188,18 @@ Utility Bar **collects usable bag items, equipped on-use gear, professions, form
 | ② | Food, potions, bandages: best only | Keep one best item per type. | Off |
 | ② | Grow upward | Lets the bar grow upward when placed at the bottom of the screen. | Off |
 | ② | Highlight low-stock consumables, reagents & ammo | Red count when stock is low. | On |
-| ③ | Language | Click the box and pick from the list (Auto · 한국어 · English · Deutsch · Français · Español · Русский · 简体中文 · 繁體中文). | Auto |
-| ③ | Spell ranks | Show class skills at **Highest rank** only or **All ranks**. | Highest rank |
-| ④ | Icon size | 24–64 (steps of 2) | 36 |
-| ④ | Icons per row | 4–16 | 8 |
-| ④ | Opacity | 30–100% (steps of 10) | 100% |
-| ④ | Show only on mouseover | Hidden until you mouse over it. | Off |
-| ⑤ | Lock / Hide toolbar | Locking makes the background transparent and prevents accidental moves. Hide hides the whole bar. | Unlocked · shown |
-| ⑤ | Expand all / Collapse all / Refresh | Expand or collapse every category; rescan bags, gear and spells. | - |
-| ⑤ | Restore hidden icons (n) | Brings back all hidden icons (count in brackets). | - |
-| ⑥ | Reset bar position | Clears position and manual size and moves the bar back near the lower centre. | - |
-| ⑥ | Support · Copy link | Opens a box with the support link to copy. | - |
+| ② | Auto-summon companion pet (pauses if you dismiss it) | Summons a favourite pet when none is out. Shown only on clients with the pet journal. | Off |
+| ② | Language | Click the box and pick from the list (Auto · 한국어 · English · Deutsch · Français · Español · Русский · 简体中文 · 繁體中文). | Auto |
+| ② | Spell ranks | Show class skills at **Highest rank** only or **All ranks**. | Highest rank |
+| ③ | Icon size | 24–64 (steps of 2) | 36 |
+| ③ | Icons per row | 4–16 | 8 |
+| ③ | Opacity | 30–100% (steps of 10) | 100% |
+| ③ | Show only on mouseover | Hidden until you mouse over it. | Off |
+| ④ | Lock / Hide toolbar | Locking makes the background transparent and prevents accidental moves. Hide hides the whole bar. | Unlocked · shown |
+| ④ | Expand all / Collapse all / Refresh | Expand or collapse every category; rescan bags, gear and spells. | - |
+| ④ | Restore hidden icons (n) | Brings back all hidden icons (count in brackets). | - |
+| ⑤ | Reset bar position | Clears position and manual size and moves the bar back near the lower centre. | - |
+| ⑤ | Support · Copy link | Opens a box with the support link to copy. | - |
 
 The same window can also be opened from the game's **Settings → AddOns → EzWoW - Utility Bar** page.
 

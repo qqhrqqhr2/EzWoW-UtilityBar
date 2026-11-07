@@ -279,7 +279,9 @@ function ToolbarController.AcquireActionButton(index)
         hbg:SetColorTexture(0.42, 0.12, 0.09, 1)
         GameTooltip:SetOwner(self, "ANCHOR_TOP")
         GameTooltip:SetText(ns:L("hideIcon"), 1, 0.82, 0.60)
+        GameTooltip:AddDoubleLine(" ", "EzWoW - Utility Bar", 0, 0, 0, 0.5, 0.5, 0.5)
         GameTooltip:Show()
+        if _G.EzWoWTooltipTagSizer and _G.EzWoWTooltipTagSizer.Refit then pcall(_G.EzWoWTooltipTagSizer.Refit, GameTooltip) end
     end)
     hideBtn:SetScript("OnLeave", function(self)
         hbg:SetColorTexture(0.10, 0.06, 0.05, 0.92)
@@ -555,6 +557,7 @@ function ToolbarController.CreateToolbarControl(name, iconName, xOffset, tipKey,
         GameTooltip:Hide()
     end)
     if onClick then b:SetScript("OnClick", onClick) end
+    b:Hide()
     return b
 end
 
@@ -599,13 +602,18 @@ elseif frame.SetMinResize then
     frame:SetMaxResize(900, 900)
 end
 
+local sizingFrame = false
 resizeHandle:RegisterForDrag("LeftButton")
 resizeHandle:SetScript("OnDragStart", function()
     if ns.db and not ns.db.locked and not InCombatLockdown() then
+        sizingFrame = true
         frame:StartSizing("BOTTOMRIGHT")
     end
 end)
 resizeHandle:SetScript("OnDragStop", function()
+    if not sizingFrame then return end
+    sizingFrame = false
+    if InCombatLockdown() then return end
     frame:StopMovingOrSizing()
     if not ns.db then return end
     ns.db.manualWidth = math.floor(frame:GetWidth() + 0.5)
@@ -624,14 +632,33 @@ titleHover:EnableMouse(true)
 titleHover:RegisterForDrag("LeftButton")
 
 titleHover:SetScript("OnDragStart", function()
-    if not ns.db or InCombatLockdown() or not IsControlKeyDown() then return end
+    if not ns.db or InCombatLockdown() then return end
+    if ns.db.locked and not IsControlKeyDown() then return end
     draggingTitle = true
     frame:StartMoving()
 end)
 titleHover:SetScript("OnDragStop", function()
     if not draggingTitle then return end
     draggingTitle = false
+    if InCombatLockdown() then return end
     frame:StopMovingOrSizing()
+    ToolbarController.SaveFramePosition()
+end)
+
+-- PLAYER_REGEN_DISABLED comes just before the lockdown: a move or resize still
+-- going on is finished there, while the bar may still be changed
+local combatStop = CreateFrame("Frame")
+pcall(combatStop.RegisterEvent, combatStop, "PLAYER_REGEN_DISABLED")
+combatStop:SetScript("OnEvent", function()
+    if not (draggingTitle or sizingFrame) then return end
+    local wasSizing = sizingFrame
+    draggingTitle, sizingFrame = false, false
+    frame:StopMovingOrSizing()
+    if wasSizing and ns.db then
+        ns.db.manualWidth = math.floor(frame:GetWidth() + 0.5)
+        ns.db.manualHeight = math.floor(frame:GetHeight() + 0.5)
+        ns.db.columns = math.max(1, math.floor((ns.db.manualWidth - 16) / ((ns.db.size or 36) + 4)))
+    end
     ToolbarController.SaveFramePosition()
 end)
 
