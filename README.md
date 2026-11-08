@@ -35,11 +35,11 @@ WoW Forever (`Interface: 16001`) · `/ezub`
 
 | 번호 | 부분 | 설명 |
 |---|---|---|
-| ① | 제목 줄 | 마우스를 올리면 **전체 접기/펼치기 · 잠금/해제 · 설정(⚙)** 버튼이 나타납니다. **Ctrl + 좌클릭 드래그**로 단축바를 옮깁니다(잠금 상태에서도 됩니다). |
+| ① | 제목 줄 | 마우스를 올리면 **전체 접기/펼치기 · 잠금/해제 · 설정(⚙)** 버튼과 조작 안내 툴팁이 나타납니다. 잠금 해제 상태에서는 제목을 **좌클릭 드래그**, 잠긴 상태에서는 **Ctrl + 드래그**로 단축바를 옮깁니다. |
 | ② | 분류 헤더 | `v 분류 이름 | 개수` 형태입니다. 클릭하면 그 분류를 접고 펼치며, 상태는 저장됩니다. 잠금을 풀면 헤더를 위·아래로 끌어서 **분류 순서**를 바꿀 수 있습니다. |
 | ③ | 아이콘 숨기기 | 잠금 해제 상태에서 제목에 마우스를 올리면 아이콘 오른쪽 위에 작은 **x**가 생깁니다. 누르면 그 아이콘만 숨겨집니다. 설정창의 **숨긴 아이콘 복원**으로 되돌립니다. |
 | ④ | 접힌 분류 | `>` 표시와 개수만 보입니다. 다시 누르면 펼쳐집니다. |
-| ⑤ | 크기 조절 · 재고 경고 | 오른쪽 아래 모서리를 끌어 너비·높이를 직접 바꿉니다. 수량이 얼마 남지 않은 소모품·직업 재료·탄약은 숫자가 **빨간색**으로 바뀝니다. |
+| ⑤ | 크기 조절 · 재고 경고 | 잠금 해제 상태에서 오른쪽 아래 모서리를 끌어 너비·높이를 직접 바꿉니다. 수량이 얼마 남지 않은 소모품·직업 재료·탄약은 숫자가 **빨간색**으로 바뀝니다. |
 
 #### 자동 분류 (15개)
 
@@ -54,14 +54,15 @@ WoW Forever (`Interface: 16001`) · `/ezub`
 | 야영 | 야영 용품 |
 | 퀘스트 | 사용 가능한 퀘스트 아이템 |
 | 이동 수단 | 귀환석, 탈것 아이템, 탈것 소환 주문 |
-| 기계공학 장치 | 폭탄·폭발물·기계공학 도구 |
+| 기계공학 장치 | 폭탄·폭발물과 기계공학 도구 |
 | 상자·기타 | 상자 등 그 밖의 사용 아이템 |
 | 전문기술 | 배운 전문기술 창·기술 |
-| 변신·태세 | 드루이드 변신, 전사 태세, 성기사 오라 등 |
+| 변신·태세 | 드루이드 변신(바다표범 변신 포함), 전사 태세, 성기사 오라(저항의 오라 포함) 등 |
 | 직업 스킬 | 부활, 순간이동/차원문, 축복, 추적, 소환수 관리, 창조 등 보조 주문 |
 | 직업 재료·탄약 | 주문 재료, 화살·탄환 |
 
-- **전투 중 동작**: 전투 중에는 단축바 구성을 바꿀 수 없는 게임 규칙 때문에 목록은 그대로 두고, 수량만 실시간으로 갱신합니다. 전투 중 다 쓴 아이템은 반투명하게 표시했다가 전투가 끝나면 정리합니다.
+- **전투 중 동작**: 전투 중에는 단축바 구성을 바꿀 수 없는 게임 규칙 때문에 목록은 그대로 두고, 수량만 실시간으로 갱신합니다. 전투 중 다 쓴 아이템은 반투명하게 표시했다가 전투가 끝나면 정리합니다. 단축바를 옮기거나 크기를 바꾸는 중에 전투가 시작되면 그 자리에서 멈추고 위치를 저장합니다.
+- 제조법 아이템은 단축바에 넣지 않습니다.
 - **최고 등급만 표시**를 켜면 생명력 물약, 마나 물약, 일반 음식, 음료, 버프 음식, 붕대마다 **내 레벨에서 쓸 수 있는 가장 좋은 것 1개**만 남깁니다.
 - **키 누를 때 시전**: 단축바 단추는 게임의 “키를 누를 때 시전” 설정을 그대로 따릅니다(전투 중에 바꾸면 전투가 끝난 뒤 적용).
 
@@ -88,7 +89,7 @@ WoW Forever (`Interface: 16001`) · `/ezub`
 | ③ | 한 줄 개수 | 4~16 | 8 |
 | ③ | 불투명도 | 30~100% (10% 단위) | 100% |
 | ③ | 마우스 올릴 때만 표시 | 평소에는 숨기고 마우스를 올리면 나타납니다. | 끔 |
-| ④ | 단축바 잠금 / 숨김 | 잠그면 배경이 투명해지고 실수로 움직이지 않습니다. 숨김은 단축바 전체를 감춥니다. | 잠금 해제 · 표시 |
+| ④ | 단축바 잠금 / 숨김 | 잠그면 배경이 투명해지고, Ctrl을 누르지 않으면 움직이지 않습니다. 숨김은 단축바 전체를 감춥니다. | 잠금 해제 · 표시 |
 | ④ | 전체 펼치기 / 전체 접기 / 새로고침 | 모든 분류를 펼치거나 접고, 가방·장비·주문을 다시 읽습니다. | - |
 | ④ | 숨긴 아이콘 복원 (n) | 괄호 안 숫자만큼 숨긴 아이콘을 모두 되돌립니다. | - |
 | ⑤ | 단축바 위치 초기화 | 위치·직접 조절한 크기를 지우고 화면 가운데 아래로 되돌립니다. | - |
@@ -112,7 +113,8 @@ WoW Forever (`Interface: 16001`) · `/ezub`
 
 ### 알아두면 좋은 점
 
-- 단축바를 옮기려면 **Ctrl**을 누른 채 제목을 끌어야 합니다. 그냥 끌면 움직이지 않습니다.
+- 단축바를 옮기려면 제목을 끕니다. 잠긴 상태에서는 **Ctrl**을 누른 채 끌어야 움직입니다.
+- 크기 조절 모서리와 분류 순서 바꾸기는 **잠금 해제** 상태에서만 됩니다.
 - 아이콘을 숨기는 **x** 버튼은 **잠금 해제** 상태에서만 보입니다.
 - 전투 중에는 새 아이템이 단축바에 바로 추가되지 않습니다. 전투가 끝나면 자동으로 정리됩니다.
 
@@ -142,11 +144,11 @@ Utility Bar **collects usable bag items, equipped on-use gear, professions, form
 
 | No. | Part | Description |
 |---|---|---|
-| ① | Title bar | Hover to reveal **collapse/expand all · lock/unlock · settings (⚙)**. **Ctrl + left-drag** moves the bar (works even when locked). |
+| ① | Title bar | Hover to reveal **collapse/expand all · lock/unlock · settings (⚙)** and a controls tooltip. While unlocked, **left-drag** the title to move the bar; while locked, use **Ctrl + drag**. |
 | ② | Category header | Shows `v Name | count`. Click to collapse/expand (saved). While unlocked, drag a header up or down to **reorder categories**. |
 | ③ | Hide an icon | While unlocked, hover the title and a small **x** appears on each icon. Click it to hide that icon. Bring icons back with **Restore hidden icons**. |
 | ④ | Collapsed category | Shows `>` and the count only. Click again to expand. |
-| ⑤ | Resize · low stock | Drag the bottom-right corner to set width/height. Consumables, reagents and ammo that are running low show a **red** count. |
+| ⑤ | Resize · low stock | While unlocked, drag the bottom-right corner to set width/height. Consumables, reagents and ammo that are running low show a **red** count. |
 
 #### Automatic categories (15)
 
@@ -161,14 +163,15 @@ Utility Bar **collects usable bag items, equipped on-use gear, professions, form
 | Camping | Camping items |
 | Quest Items | Usable quest items |
 | Travel & Mounts | Hearthstone, mount items, mount spells |
-| Engineering Gadgets | Bombs, explosives, engineering devices |
+| Engineering Gadgets | Bombs and explosives together with engineering devices |
 | Chests & Other | Lockboxes and other usable items |
 | Professions | Learned profession windows/skills |
-| Forms & Stances | Druid forms, warrior stances, paladin auras, … |
+| Forms & Stances | Druid forms (including Sea Lion Form), warrior stances, paladin auras (including resistance auras), … |
 | Class Skills | Resurrection, teleports/portals, blessings, tracking, pet care, conjuration, … |
 | Reagents & Ammo | Spell reagents, arrows and bullets |
 
-- **In combat**: the game does not allow rebuilding the bar during combat, so the layout stays as it is and only counts update live. Items used up during combat are dimmed and removed after combat.
+- **In combat**: the game does not allow rebuilding the bar during combat, so the layout stays as it is and only counts update live. Items used up during combat are dimmed and removed after combat. If combat starts while you are moving or resizing the bar, it stops right there and keeps the position.
+- Recipe items are never put on the bar.
 - With **best only** enabled, the bar keeps just **one best usable item per type** (health potion, mana potion, food, drink, buff food, bandage) for your level.
 - **Cast on key down**: the bar's buttons follow the game's “cast on key down” option (a change made in combat applies after combat).
 
@@ -195,7 +198,7 @@ Turn it on in the settings and, whenever no companion pet is out, the bar summon
 | ③ | Icons per row | 4–16 | 8 |
 | ③ | Opacity | 30–100% (steps of 10) | 100% |
 | ③ | Show only on mouseover | Hidden until you mouse over it. | Off |
-| ④ | Lock / Hide toolbar | Locking makes the background transparent and prevents accidental moves. Hide hides the whole bar. | Unlocked · shown |
+| ④ | Lock / Hide toolbar | Locking makes the background transparent; the bar then only moves with Ctrl held. Hide hides the whole bar. | Unlocked · shown |
 | ④ | Expand all / Collapse all / Refresh | Expand or collapse every category; rescan bags, gear and spells. | - |
 | ④ | Restore hidden icons (n) | Brings back all hidden icons (count in brackets). | - |
 | ⑤ | Reset bar position | Clears position and manual size and moves the bar back near the lower centre. | - |
@@ -219,7 +222,8 @@ The same window can also be opened from the game's **Settings → AddOns → EzW
 
 ### Tips
 
-- To move the bar, hold **Ctrl** while dragging the title. A plain drag does nothing.
+- To move the bar, drag its title. While the bar is locked, hold **Ctrl** while dragging.
+- The resize corner and reordering categories only work while the bar is **unlocked**.
 - The **x** hide buttons only appear while the bar is **unlocked**.
 - New items are not added during combat; the bar updates automatically when combat ends.
 

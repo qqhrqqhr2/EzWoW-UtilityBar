@@ -1,5 +1,6 @@
 <!--
 CurseForge summary (EN): One compact bar that collects your potions, food, bandages, on-use gear, professions, forms and class skills by category, with optional companion pet auto-summon.
+CurseForge summary (KO): 물약·음식·붕대·사용 효과 장비·전문기술·변신·직업 스킬을 분류별로 모아 주는 작은 단축바, 애완동물 자동 소환 선택 기능.
 -->
 
 # EzWoW - Utility Bar
@@ -22,15 +23,17 @@ One compact bar for WoW Forever that **collects usable bag items, equipped on-us
 - Hide single icons with a small x (while unlocked) and restore them from the settings.
 - Red counts when consumables, reagents or ammo run low.
 - Optional: best food, potion and bandage for your level only; all icons without categories; grow upward.
-- Secure action buttons: they work in combat, and follow the game's "cast on key down" option.
-- Ctrl + left-drag the title to move; drag the corner to resize; icon size, icons per row, opacity, show on mouseover.
+- Secure action buttons: they work in combat, and follow the game's "cast on key down" option. In combat the layout stays put and only counts update; used-up items are dimmed and cleared after combat.
+- Drag the title to move (Ctrl + drag while locked); drag the corner to resize while unlocked; icon size, icons per row, opacity, show on mouseover.
+- Locking makes the background transparent and keeps the bar from moving by accident.
+- Recipe items are left off the bar.
 
 ### Auto-summon companion pet (off by default)
 - When no companion pet is out, the bar summons one of your favourites (any pet if you have none).
 - Never in combat, mounted, flying, in instances, stealthed or while casting. If you put your pet away, it waits until you summon one yourself.
 
 ## Commands
-- `/ezub` (`/eub`, `/ezwowutilitybar`) — settings
+- `/ezub` (`/eub`, `/fub`, `/ezwowutilitybar`) — settings
 - `/ezub lock` — lock or unlock the bar
 - `/ezub show` / `/ezub hide` — show or hide the bar
 - `/ezub refresh` — rescan bags, gear and spells
@@ -58,15 +61,17 @@ Languages: English, 한국어, Deutsch, Français, Español, Русский, 简
 - 잠금 해제 상태에서 작은 x로 아이콘을 하나씩 숨기고, 설정창에서 되돌립니다.
 - 소모품 · 직업 재료 · 탄약이 얼마 남지 않으면 숫자가 빨간색.
 - 선택: 내 레벨에서 쓸 수 있는 최고 등급 음식 · 물약 · 붕대만, 분류 없이 합쳐 보기, 위로 펼치기.
-- 보안 액션 버튼이라 전투 중에도 동작하고, 게임의 "키를 누를 때 시전" 설정을 따릅니다.
-- Ctrl + 제목 좌클릭 드래그로 이동, 모서리로 크기 조절, 아이콘 크기 · 한 줄 개수 · 불투명도 · 마우스 올릴 때만 표시.
+- 보안 액션 버튼이라 전투 중에도 동작하고, 게임의 "키를 누를 때 시전" 설정을 따릅니다. 전투 중에는 목록을 그대로 두고 수량만 갱신하며, 다 쓴 아이템은 반투명하게 두었다가 전투가 끝나면 정리합니다.
+- 제목을 끌어 이동(잠긴 상태에서는 Ctrl + 드래그), 잠금 해제 상태에서 모서리로 크기 조절, 아이콘 크기 · 한 줄 개수 · 불투명도 · 마우스 올릴 때만 표시.
+- 잠그면 배경이 투명해지고 실수로 움직이지 않습니다.
+- 제조법 아이템은 단축바에 넣지 않습니다.
 
 ### 애완동물 자동 소환 (기본 꺼짐)
 - 애완동물이 나와 있지 않으면 즐겨찾기 애완동물 중 하나(없으면 아무거나)를 불러냅니다.
 - 전투 · 탈것 · 비행 · 인스턴스 · 은신 · 시전 중에는 부르지 않습니다. 직접 넣으면 다시 부를 때까지 쉽니다.
 
 ## 명령어
-- `/ezub` (`/eub`, `/ezwowutilitybar`) — 설정창
+- `/ezub` (`/eub`, `/fub`, `/ezwowutilitybar`) — 설정창
 - `/ezub lock` — 단축바 잠금/해제
 - `/ezub show` / `/ezub hide` — 단축바 표시 / 숨기기
 - `/ezub refresh` — 가방 · 장비 · 주문 다시 읽기

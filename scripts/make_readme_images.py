@@ -17,6 +17,8 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 from pathlib import Path
 
 PAGE_W = 1600
@@ -407,18 +409,70 @@ def chrome_args(chrome, tmp):
             f"--user-data-dir={Path(tmp) / 'chrome_profile'}", "--virtual-time-budget=3000"]
 
 
+def stop(proc):
+    """Ends Chrome and its child processes."""
+    if proc.poll() is None:
+        if os.name == "nt":
+            subprocess.run(["taskkill", "/T", "/F", "/PID", str(proc.pid)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        else:
+            proc.kill()
+    proc.wait()
+
+
+def screenshot(cmd, out_png, timeout=180):
+    """Runs headless Chrome until the screenshot file is written (Chrome may not exit by itself)."""
+    if out_png.exists():
+        out_png.unlink()
+    proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        start, last = time.time(), -1
+        while time.time() - start < timeout:
+            if out_png.exists():
+                size = out_png.stat().st_size
+                if size > 0 and size == last:
+                    return
+                last = size
+            elif proc.poll() is not None:
+                raise RuntimeError(f"Chrome ended without writing {out_png}")
+            time.sleep(0.5)
+        raise TimeoutError(f"no screenshot after {timeout}s: {out_png}")
+    finally:
+        stop(proc)
+
+
+def dump_dom(cmd, timeout=180):
+    """Runs headless Chrome with --dump-dom until the whole document is printed."""
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    chunks = []
+
+    def pump():
+        for chunk in iter(lambda: proc.stdout.read(4096), b""):
+            chunks.append(chunk)
+
+    reader = threading.Thread(target=pump, daemon=True)
+    reader.start()
+    try:
+        start = time.time()
+        while time.time() - start < timeout:
+            data = b"".join(chunks)
+            if b"</html>" in data or (proc.poll() is not None and not reader.is_alive()):
+                return data.decode("utf-8", "replace")
+            time.sleep(0.3)
+        raise TimeoutError("no DOM from Chrome after %ds" % timeout)
+    finally:
+        stop(proc)
+
+
 def render(chrome, body, call, out_png, tmp):
     doc = (f'<!doctype html><html><head><meta charset="utf-8"><style>{page_css(call)}</style></head>'
            f'<body><div class="sky"></div>{HILLS}{body}{FIT_JS}</body></html>')
     page = Path(tmp) / (out_png.stem + ".html")
     page.write_text(doc, encoding="utf-8")
     # pass 1: let the page measure itself, pass 2: screenshot at that height
-    dom = subprocess.run(chrome_args(chrome, tmp) + ["--window-size=1600,4000", "--dump-dom", page.as_uri()],
-                         check=True, capture_output=True, timeout=120).stdout.decode("utf-8", "replace")
+    dom = dump_dom(chrome_args(chrome, tmp) + ["--window-size=1600,4000", "--dump-dom", page.as_uri()])
     m = re.search(r'data-h="(\d+)"', dom)
     height = int(m.group(1)) if m else 1200
-    subprocess.run(chrome_args(chrome, tmp) + [f"--window-size={PAGE_W},{height}", f"--screenshot={out_png}", page.as_uri()],
-                   check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120)
+    screenshot(chrome_args(chrome, tmp) + [f"--window-size={PAGE_W},{height}", f"--screenshot={out_png}", page.as_uri()], out_png)
     return height
 
 
@@ -480,14 +534,15 @@ T = {
     "ko": {
         "lead": "가방의 사용 아이템 · 착용 장비 · 전문기술 · 직업 스킬을 분류별로 자동 정리하는 단축바",
         "notes": [
-            ("제목 줄", "마우스를 올리면 전체 접기/펼치기 · 잠금/해제 · 설정(톱니) 단추. <b>Ctrl + 좌클릭 드래그</b>로 언제든 이동합니다."),
+            ("제목 줄", "마우스를 올리면 전체 접기/펼치기 · 잠금/해제 · 설정(톱니) 단추와 조작 안내 툴팁. 잠금 해제 상태에서는 <b>좌클릭 드래그</b>, 잠긴 상태에서는 <b>Ctrl + 드래그</b>로 이동합니다."),
             ("분류 헤더", "클릭해 접기/펼치기(저장됨). 잠금 해제 상태에서 위 · 아래로 끌어 분류 순서를 바꿉니다."),
             ("아이콘 숨기기", "잠금 해제 상태에서 제목에 마우스를 올리면 아이콘 오른쪽 위에 작은 x가 생깁니다. 설정창 “숨긴 아이콘 복원”으로 되돌립니다."),
             ("접힌 분류", "“>” 표시와 개수만 보입니다."),
-            ("크기 조절 · 재고 경고", "오른쪽 아래 모서리로 너비 · 높이 조절. 얼마 남지 않은 소모품 · 직업 재료 · 탄약은 숫자가 빨간색."),
+            ("크기 조절 · 재고 경고", "잠금 해제 상태에서 오른쪽 아래 모서리로 너비 · 높이 조절. 얼마 남지 않은 소모품 · 직업 재료 · 탄약은 숫자가 빨간색."),
         ],
         "more": [
             ("애완동물 자동 소환", "설정에서 켜면(기본 꺼짐) 애완동물이 없을 때 즐겨찾기 중 하나(없으면 아무거나)를 불러냅니다. 전투 · 탈것 · 비행 · 인스턴스 · 은신 · 시전 중에는 하지 않고, 직접 넣은 뒤에는 다시 부를 때까지 쉽니다."),
+            ("전투 중", "보안 버튼이라 전투 중에도 클릭해 씁니다. 목록은 그대로 두고 수량만 갱신하며, 다 쓴 아이템은 반투명하게 두었다가 전투가 끝나면 정리합니다."),
             ("키 누를 때 시전", "단축바 단추는 게임의 “키를 누를 때 시전” 설정을 그대로 따릅니다."),
         ],
         "moreTitle": "그 밖의 기능",
@@ -506,14 +561,15 @@ T = {
     "en": {
         "lead": "One compact bar that sorts usable bag items, equipped gear, professions and class skills by category",
         "notes": [
-            ("Title bar", "Hover for collapse/expand all, lock/unlock and settings (gear). <b>Ctrl + left-drag</b> moves the bar any time."),
+            ("Title bar", "Hover for collapse/expand all, lock/unlock, settings (gear) and a controls tooltip. <b>Left-drag</b> moves the bar while unlocked, <b>Ctrl + drag</b> while locked."),
             ("Category header", "Click to collapse or expand (saved). While unlocked, drag up or down to reorder categories."),
             ("Hide an icon", "While unlocked, hover the title and a small x appears on each icon. Bring icons back with “Restore hidden icons”."),
             ("Collapsed category", "Only “>” and the count are shown."),
-            ("Resize · low stock", "Drag the bottom-right corner to resize. Consumables, reagents and ammo that are running low show a red count."),
+            ("Resize · low stock", "While unlocked, drag the bottom-right corner to resize. Consumables, reagents and ammo that are running low show a red count."),
         ],
         "more": [
             ("Companion pet", "Turn it on in the settings (off by default) and a favourite pet (any pet if you have no favourites) is summoned when none is out. Never in combat, mounted, flying, in instances, stealthed or while casting; after you put a pet away it waits until you summon one yourself."),
+            ("In combat", "Secure buttons keep working in combat. The layout stays put and only counts update; used-up items are dimmed and removed after combat."),
             ("Cast on key down", "The bar's buttons follow the game's “cast on key down” option."),
         ],
         "moreTitle": "Also",
