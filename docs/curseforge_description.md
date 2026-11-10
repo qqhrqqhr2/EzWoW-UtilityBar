@@ -32,6 +32,15 @@ One compact bar for WoW Forever that **collects usable bag items, equipped on-us
 - When no companion pet is out, the bar summons one of your favourites (any pet if you have none).
 - Never in combat, mounted, flying, in instances, stealthed or while casting. If you put your pet away, it waits until you summon one yourself.
 
+## Gamepad
+- With the gamepad UI on, EzWoW windows work with a gamepad: D-pad to move, A (✕) to press, X (□) for right-click, LB/RB to scroll, B (○) to close. A key guide in your pad's button style shows under the window.
+- With no game window open, press **View (Back) / Create** to move to the EzWoW frames on screen. Press it again or B to go back.
+- To use another button: Key Bindings > AddOns > EzWoW > "Gamepad: move to / leave the EzWoW frames" (with EzWoW-MapFinder installed).
+
+## Record sharing
+- Shared by all EzWoW addons and **on by default**: quest NPCs, rare monster sightings, item drops and gathering spots you have seen yourself are shared with other EzWoW users.
+- `/ezshare on` / `off`, `/ezshare channel on` / `off`, `/ezshare status`
+
 ## Commands
 - `/ezub` (`/eub`, `/fub`, `/ezwowutilitybar`) — settings
 - `/ezub lock` — lock or unlock the bar
@@ -69,6 +78,15 @@ Languages: English, 한국어, Deutsch, Français, Español, Русский, 简
 ### 애완동물 자동 소환 (기본 꺼짐)
 - 애완동물이 나와 있지 않으면 즐겨찾기 애완동물 중 하나(없으면 아무거나)를 불러냅니다.
 - 전투 · 탈것 · 비행 · 인스턴스 · 은신 · 시전 중에는 부르지 않습니다. 직접 넣으면 다시 부를 때까지 쉽니다.
+
+## 게임패드
+- 게임패드 UI를 켜면 EzWoW 창을 패드로 다룰 수 있습니다. 방향키로 이동, A(✕)로 누르기, X(□)로 오른쪽 클릭, LB/RB로 스크롤, B(○)로 닫기입니다. 창 아래에 연결된 패드 모양으로 키 안내가 나옵니다.
+- 블리자드 창이 열려 있지 않을 때 **보기(Back) / Create 버튼**을 누르면 화면의 EzWoW 프레임으로 이동합니다. 다시 누르거나 B를 누르면 돌아갑니다.
+- 다른 버튼을 쓰려면: 설정 > 단축키 > 애드온 > EzWoW > "게임패드: EzWoW 창으로 이동/돌아가기" (EzWoW-MapFinder 설치 시)
+
+## 기록 공유
+- 모든 EzWoW 애드온이 함께 쓰며 **기본으로 켜져 있습니다**. 직접 확인한 퀘스트 NPC, 희귀 몬스터 목격, 아이템 드롭, 채집 위치를 다른 EzWoW 사용자와 나눕니다.
+- `/ezshare on` / `off` (또는 `/공유`), `/ezshare channel on` / `off`, `/ezshare status`
 
 ## 명령어
 - `/ezub` (`/eub`, `/fub`, `/ezwowutilitybar`) — 설정창
