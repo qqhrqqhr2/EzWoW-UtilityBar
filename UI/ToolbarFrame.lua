@@ -403,10 +403,9 @@ function ToolbarController.AcquireCategoryHeader(groupKey)
     h.accent:SetWidth(2)
 
     h:SetScript("OnClick", function(self)
-        if self.justDragged then
-            self.justDragged = nil
-            return
-        end
+        -- a click that arrives right as a drag ends belongs to the drag (the
+        -- client may or may not send one): only later clicks fold the group
+        if self.dragEndedAt and GetTime() - self.dragEndedAt < 0.3 then return end
         if not ns.hoverUIActive and (not ns.db or ns.db.locked) then return end
         ns.db.collapsed[groupKey] = not ns.db.collapsed[groupKey]
         ns:RefreshToolbar()
@@ -414,7 +413,6 @@ function ToolbarController.AcquireCategoryHeader(groupKey)
 
     h:SetScript("OnDragStart", function(self)
         if not ns.db or ns.db.locked or InCombatLockdown() then return end
-        self.justDragged = true
         draggingCategory = groupKey
         self.bg:SetColorTexture(0.24, 0.19, 0.32, 0.98)
         dragBadge.text:SetText("↕  " .. ns:GetGroupLabel(groupKey))
@@ -423,6 +421,7 @@ function ToolbarController.AcquireCategoryHeader(groupKey)
     end)
 
     h:SetScript("OnDragStop", function(self)
+        self.dragEndedAt = GetTime()
         if draggingCategory ~= groupKey then return end
         draggingCategory = nil
         dragBadge:Hide()
@@ -831,7 +830,10 @@ frame:SetScript("OnUpdate", function(_, elapsed)
             local prev = draggingCategory
             draggingCategory = nil
             dragBadge:Hide()
-            if headers[prev] then headers[prev].bg:SetColorTexture(0.114, 0.157, 0.192, 0.92) end
+            if headers[prev] then
+                headers[prev].bg:SetColorTexture(0.114, 0.157, 0.192, 0.92)
+                headers[prev].dragEndedAt = GetTime()
+            end
             ns:RefreshToolbar()
             if ns.ConfigFrame and ns.ConfigFrame:IsShown() and ns.ConfigFrame.updateLabels then
                 ns.ConfigFrame.updateLabels()

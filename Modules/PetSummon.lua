@@ -121,8 +121,9 @@ local function Attempt()
     end
     lastAttempt = Now()
     local j = J()
+    -- the argument is "all pets": false = favourites only, true = any pet
     local favourites = Call(j.HasFavoritePets) and true or false
-    pcall(j.SummonRandomPet, favourites)
+    pcall(j.SummonRandomPet, not favourites)
 end
 
 Queue = function(delay)

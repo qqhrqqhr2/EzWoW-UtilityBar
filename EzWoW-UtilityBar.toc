@@ -25,7 +25,7 @@
 ## Version: 2.0.13
 ## Category: EzWoW
 ## IconTexture: Interface\AddOns\EzWoW-UtilityBar\Media\Icon
-## SavedVariables: EzWoW_UtilityBarDB, EzWoW_SharedData
+## SavedVariables: EzWoW_UtilityBarDB, EzWoW_SharedData, EzWoW_ShareStore_UtilityBar
 
 Libs\EzWoWGamePad\GamePad.lua
 Libs\EzWoWShare\Share.lua
