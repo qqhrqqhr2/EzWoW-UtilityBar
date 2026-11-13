@@ -23,7 +23,7 @@ WoW Forever (`Interface: 16001`) · `/ezub`
 
 ![설정창](docs/images/settings_ko.png)
 
-> 이미지는 애드온 코드에 들어 있는 창 크기·좌표·색상·문구를 그대로 옮겨 만든 **예시 화면**입니다. 아이콘과 아이템은 예시이며 실제 게임 화면과 조금 다를 수 있습니다.
+> 실제 게임 화면입니다(WoW Forever, 한국어 클라이언트). 캐릭터 · 다른 플레이어 이름과 채팅 내용은 가렸습니다.
 
 ### 설치
 
@@ -31,7 +31,7 @@ WoW Forever (`Interface: 16001`) · `/ezub`
 2. 캐릭터 선택 화면의 **애드온** 목록에서 `EzWoW - Utility Bar`를 켭니다.
 3. 접속하면 화면 가운데 아래쪽에 단축바가 나타납니다. 설정은 `/ezub`로 엽니다.
 
-### 단축바 사용법 (위 그림의 번호)
+### 단축바 사용법
 
 | 번호 | 부분 | 설명 |
 |---|---|---|
@@ -142,7 +142,7 @@ Utility Bar **collects usable bag items, equipped on-use gear, professions, form
 
 ![Settings window](docs/images/settings_en.png)
 
-> These are **mock-ups** rebuilt from the window sizes, coordinates, colours and strings in the addon code. Icons and items are examples; the in-game look may differ slightly.
+> In-game screenshots (WoW Forever, Korean client). Character and player names and chat text are blurred.
 
 ### Installation
 
@@ -150,7 +150,7 @@ Utility Bar **collects usable bag items, equipped on-use gear, professions, form
 2. Enable `EzWoW - Utility Bar` in the **AddOns** list on the character select screen.
 3. The bar appears near the lower centre of the screen. Open settings with `/ezub`.
 
-### Using the bar (numbers in the picture)
+### Using the bar
 
 | No. | Part | Description |
 |---|---|---|

@@ -13,7 +13,7 @@ One compact bar for WoW Forever that **collects usable bag items, equipped on-us
 
 ![Settings window](https://raw.githubusercontent.com/qqhrqqhr2/EzWoW-UtilityBar/master/docs/images/settings_en.png)
 
-*Mock-ups rebuilt from the window sizes, coordinates, colours and strings in the addon code. Icons and items are examples.*
+*In-game screenshots (WoW Forever, Korean client). Character and player names and chat text are blurred.*
 
 ## Features
 
@@ -60,7 +60,7 @@ Languages: English, 한국어, Deutsch, Français, Español, Русский, 简
 
 ![설정창](https://raw.githubusercontent.com/qqhrqqhr2/EzWoW-UtilityBar/master/docs/images/settings_ko.png)
 
-*애드온 코드의 창 크기 · 좌표 · 색상 · 문구로 재현한 예시 화면입니다. 아이콘과 아이템은 예시입니다.*
+*실제 게임 화면입니다(WoW Forever, 한국어 클라이언트). 캐릭터 · 다른 플레이어 이름과 채팅 내용은 가렸습니다.*
 
 ## 기능
 
